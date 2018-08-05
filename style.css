@@ -1,0 +1,723 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
+
+
+
+
+/*body {*/
+    /*font-size: 14px;*/
+    /*font-family: "Source Code Pro", Consolas, monaco, monospace;*/
+    /*!*margin: 20px auto 20px;*!*/
+    /*line-height: 1.45em;*/
+    /*padding-top: 0;*/
+/*}*/
+a {
+    color: #454545;
+}
+a:hover {
+    color: #000;
+}
+ul {
+    margin: 0 20px;
+    padding: 0;
+}
+.dark {
+    background: #222;
+}
+#example {
+    min-height: 300px;
+    margin: 12px 0;
+}
+/*p {*/
+    /*width: 560px;*/
+/*}*/
+pre {
+    color: #444;
+    font-family: Ubuntu Mono, Monaco, monospace;
+    padding: 4px 8px;
+    background: #f2f2f2;
+    border: 1px solid #ccc;
+}
+h1 small {
+    font-weight: normal;
+    font-size: 0.5em;
+}
+h3 {
+    margin-top: 40px;
+}
+.float {
+    float: left;
+}
+.centered {
+    text-align: center;
+}
+.hide {
+    display: none;
+}
+input {
+    font-size: 16px;
+}
+
+/* data table styles */
+#grid { height: 240px;
+    margin-left:100px;margin-right:100px}
+.row, .header { clear: left; font-size: 11px; line-height: 24px; height: 24px; }
+.row:nth-child(odd) { background: rgba(0,0,0,0.05); }
+.header { font-weight: bold; }
+.cell { float: left; overflow: hidden; white-space: nowrap; width: 160px; height: 18px; }
+.col-0 { width: 120px; }
+
+
+/* parcoords styles */
+.parcoords > svg, .parcoords > canvas {
+    font: 11px "Source Code Pro", Consolas, monaco, monospace;
+    position: absolute;
+}
+.parcoords > canvas {
+    pointer-events: none;
+}
+
+.parcoords text.label {
+    cursor: default;
+}
+
+.parcoords rect.background {
+    fill: transparent;
+}
+.parcoords rect.background:hover {
+    fill: rgba(120,120,120,0.2);
+}
+.parcoords .resize rect {
+    fill: rgba(0,0,0,0.1);
+}
+.parcoords rect.extent {
+    fill: rgba(255,255,255,0.25);
+    stroke: rgba(0,0,0,0.6);
+}
+.parcoords .axis line, .parcoords .axis path {
+    fill: none;
+    stroke: #454545;
+    shape-rendering: crispEdges;
+}
+.parcoords canvas {
+    opacity: 1;
+    -moz-transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+}
+.parcoords canvas.faded {
+    opacity: 0.25;
+}
+.parcoords {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* sidebar
+
+ */
+/*
+    DEMO STYLE
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+/*.navbar {*/
+    /*padding: 15px 10px;*/
+    /*background: #fff;*/
+    /*border: none;*/
+    /*border-radius: 0;*/
+    /*margin-bottom: 40px;*/
+    /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);*/
+    /*margin-right: 250px;*/
+/*}*/
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    position: fixed;
+    min-width: 250px;
+    max-width: 250px;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+    right: 0px;
+
+}
+
+#sidebar.active {
+    margin-right: : -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+    margin-right: 200px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-right: -250px;
+    }
+    #sidebar.active {
+        margin-right: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+/* side bar ends  */
+/*
+    DEMO STYLE
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+    .navbar {
+        padding-bottom: 25px;
+        background: #fff;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 40px;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    position: static;
+    float: right;
+    min-width: 250px;
+    max-width: 250px;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+    right: 0px;
+
+}
+
+#sidebar.active {
+    margin-right: : -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+    margin-right: 200px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-right: -250px;
+    }
+    #sidebar.active {
+        margin-right: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+ /* side bar ends */
+
+/*  brushable bar     */
+.axisSl path,
+.axisSl line {
+    fill: none;
+}
+
+.y.axisSl path {
+    display: none;
+}
+
+.brush .extent {
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
+.axisSl text{
+    font: 16px times;
+}
+
+.resize {
+    display: inline !important; /* show when empty */
+    fill: #7A7A7A;
+    fill-opacity: 1;
+    stroke: #7A7A7A;
+    stroke-width: 2px;
+}
+
+.barsSl {
+    /*shape-rendering: crispEdges;*/
+}
+
+
+.toolTipBars {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    position: absolute;
+    display: none;
+    width: auto;
+    height: auto;
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: -3px 3px 15px #888888;
+    color: black;
+    font: 12px sans-serif;
+    padding: 5px;
+    text-align: center;
+}
+
+#brushBarTitle {
+    font-size: 20px;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    font-weight: 300;
+    padding-left: 150px;
+}
+
+#brushBarexplanation {
+    font-size: 12px;
+    /*max-width: 620px;*/
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-left: 250px;
+    color: #ababab;
+    font-weight: 300;
+}
+/*  brushable bar  ends   */
+
+.multiLineChart .axis text{
+    font: 14px times;
+}
+
+.container-fluid{
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.cheaders {
+    font-family: 'Playball', cursive;
+    font-size: 48px;
+    padding-top:25px;!important
+}
+
+.navbar-default{
+  color:  #f5f5f5;!important;
+}
+
+.cheaders2{
+    font-family: 'Copse', serif;
+    font-size: 28px;
+    color:#333;
+    margin-left:80px;
+}
+
+/* Migo */
+
+/* average nutritional deficiency*/
+body {
+    font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.bar {
+    fill: orange;
+}
+
+.bar:hover {
+    fill: orangered ;
+}
+
+.x.axis path {
+    display: none;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+.title {
+    font: bold 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/* Migo */
+
+/*Bootstrap tables*/
+h2 {
+    text-align: center;
+}
+
+table caption {
+    padding: .5em 0;
+}
+
+@media screen and (max-width: 767px) {
+    table caption {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+.p {
+    text-align: center;
+    padding-top: 140px;
+    font-size: 14px;
+}
+
+/*Bootstrap tables*/
+
+
+/*Migo*/
+/* Horizantal bar chart*/
+/*body {*/
+    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    /*width: 960px;*/
+    /*height: 500px;*/
+    /*position: relative;*/
+/*}*/
+
+/*svg {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*position: center;*/
+/*}*/
+
+.toolTipHBO {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    position: absolute;
+    display: none;
+    width: auto;
+    height: auto;
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: -3px 3px 15px #888888;
+    color: black;
+    font: 12px sans-serif;
+    padding: 5px;
+    text-align: center;
+}
+
+#HorizontalBarChart text {
+    font: 14px sans-serif;
+    color: white;
+}
+#HorizontalBarChart text.value {
+    font: 14px sans-serif;
+    fill: white;
+}
+
+.axisHorizontal path{
+    fill: none;
+}
+
+.axisHorizontal .tick line {
+    stroke-width: 1;
+    stroke: rgba(0, 0, 0, 0.2);
+}
+
+.barH {
+    fill: steelblue;
+    fill-opacity: .9;
+}
+
+.barH text{
+    font: 14px sans-serif;
+}
+
+#HorizontalBarChart .label{
+    padding:0;
+    font-style: italic;
+
+}
+/*Migo*/
+
+/*#grid  .row:nth-child(2){*/
+     /*background-color:#bcbddc ;*/
+/*}*/
+
+svg.nvd3-svg {
+    width:60%;
+}
+
+.nv-controlsWrap{
+    display:none ;
+}

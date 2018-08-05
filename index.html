@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<meta charset='utf-8'>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Playball" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Copse" rel="stylesheet">
+
+<script src='http://crossfilter.github.io/crossfilter/crossfilter.v1.min.js'></script>
+<script src='https://d3js.org/d3.v3.min.js'></script>
+<script src='https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.min.js'></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<style>
+
+    /* Bar chart css */
+    .loadBars{
+        position: fixed;
+        margin-left: 100px;
+
+    }
+    .barBr--positive {
+        fill: steelblue;
+    }
+
+    .barBr--negative {
+        fill: darkorange;
+    }
+
+    .axisBr text {
+        font: 10px sans-serif;
+    }
+
+    .axisBr path,
+    .axisBr line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    /* Bar chart css ends */
+
+
+    .bar--positive {
+        fill: #9BCCF5;
+    }
+
+    .bar--negative {
+        fill: pink;
+    }
+
+    text {
+        font: 11px sans-serif;
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    }
+   .issue text {
+        font: 12px sans-serif;
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .title {
+        font-size: 13px;
+        font-weight:bold;
+    }
+    .reset { cursor: pointer;}
+</style>
+<style>
+
+    body {
+        font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line,
+    .axis1 path,
+    .axis1 line {
+        fill: none;
+        stroke: #E6E7E8;
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis path, .x.axis1 path {
+        display: none;
+    }
+
+    .line {
+        fill: none;
+        stroke-width: 1.5px;
+    }
+
+    .legend-box {
+        cursor: pointer;
+    }
+
+    #mouse-tracker {
+        stroke: #E6E7E8;
+        stroke-width: 1px;
+    }
+
+    .hover-line {
+        stroke: #E6E7E8;
+        fill: none;
+        stroke-width: 1px;
+        left: 10px;
+        shape-rendering: crispEdges;
+        opacity: 1e-6;
+    }
+
+    .hover-text {
+        stroke: none;
+        font-size: 30px;
+        font-weight: bold;
+        fill: #000000;
+    }
+
+    .tooltip {
+        font-weight: normal;
+    }
+
+    .brush .extent {
+        stroke: #c6dbef;
+        fill:#3182bd;
+        shape-rendering: crispEdges;
+    }
+
+</style>
+<body style="width:100%">
+<div class="container-fluid" style="width:100%">
+    <nav class="navbar navbar-default " style="background: #003057;width:100%">
+        <div style="margin-left: 550px " class="navbar-header">
+            <a class="navbar-brand cheaders"  href="#" style="color: #f5f5f5;">Nutritional Facts</a>
+        </div>
+    </nav>
+
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-xs-3">
+                <p class="cheaders2">Standard Nutrition</p>
+                <div class="table-responsive" style="margin-left: 45px;font-size: 11px">
+                    <table  id="stdtable" summary="This table shows how to create responsive tables using Bootstrap's default functionality" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Nutrition</th>
+                            <th>Units(mg)</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>carbohydrate
+                            </td>
+                            <td>300000
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>fat
+                            </td>
+                            <td>65000
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>protein
+                            </td>
+                            <td>50000
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>fiber
+                            </td>
+                            <td>25000
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>saturatedFat
+                            </td>
+                            <td>20000
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>potassium
+                            </td>
+                            <td>3500
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>sodium
+                            </td>
+                            <td>2400
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>calcium
+                            </td>
+                            <td>1000
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>phosphorus
+                            </td>
+                            <td>1000
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>vitaminA
+                            </td>
+                            <td>700
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>magnesium
+                            </td>
+                            <td>400
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>cholesterol
+                            </td>
+                            <td>300
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>vitaminC
+                            </td>
+                            <td>60
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>niacin
+                            </td>
+                            <td>20
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>iron
+                            </td>
+                            <td>18
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>zinc
+                            </td>
+                            <td>15
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>vitaminB6
+                            </td>
+                            <td>2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>copper
+                            </td>
+                            <td>2
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>riboflavin
+                            </td>
+                            <td>1.7
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>thiamin
+                            </td>
+                            <td>1.5
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>folate
+                            </td>
+                            <td>0.4
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>vitaminK
+                            </td>
+                            <td>0.08
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>selenium
+                            </td>
+                            <td>0.07
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>vitaminB12
+                            </td>
+                            <td>0.01
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div><!--end of .table-responsive-->
+                <p style="font-size: 12px; padding-left: 40px;padding-top: 0px">           ****Please select the Nutrition*****</p>
+            </div>
+            <div class="col-xs-1">
+            </div>
+            <div class="col-xs-8">
+                <p class="cheaders2" style="margin-left: 200px">Consumption trends by categories</p>
+                <span id='multiLineChart' style=" padding-top: 20px"></span>
+                <p style="padding-left:420px;color:#333;font-size: 14px" >Date</p>
+                <p class="cheaders2" style="margin-left: 100px">Average Consumption difference to Standard Nutrition</p>
+                <span id="loadBars">
+                </span>
+                <p style="padding-left:320px;color:#333;font-size: 14px" >Nutrition (mg)</p>
+            </div>
+        </div>
+
+
+
+    <!--<p class="cheaders2">Standard Nutrition  <span style="margin-left: 450px">Consumption trends by categories</span></p>-->
+    <!--<span id="chart" style="padding-bottom: 10px"></span>-->
+    <!--<span></span>-->
+
+
+
+    <!--<br>-->
+    <!--<span id="brushBarexplanation">Data in milligrames.</span>-->
+    <!--<span id='multiLineChart' style="padding-left: 150px; padding-top: 20px"></span>-->
+    <!--<p style="padding-left:1200px;color:#333;font-size: 14px" >Date</p>-->
+    <!--<br>-->
+    <!--<p class="cheaders2" style="margin-left: 900px">Average Consumption difference by category</p>-->
+    <!--<span id="loadBars">-->
+    <!--</span>-->
+    <!--<p style="padding-left:1200px;color:#333;font-size: 14px" >Nutrition (mg)</p>-->
+    <!--<br>-->
+    <!--&lt;!&ndash;<span id='bubble-chart'></span>&ndash;&gt;-->
+    <!--<br><br> <br><br>-->
+    <br>
+    <div>
+    <p class="cheaders2" style="margin-left: 35%;margin-top:100px">Overall Nutritional Deficiency</p>
+        <br>
+    <span id='AverageBarchart' style="margin-left: 20%;margin-top:20px"></span>
+    </div>
+    <p class="cheaders2" style="margin-left: 650px;margin-top:80px">Nutrition Chart for fruits</p>
+    <div id="example" class="parcoords"></div>
+    <div id="grid"></div>
+    <br><br><br>
+    <div><p style="font-size: 12px; padding-left: 100px">           ****Please select a fruit*****</p></div>
+    <p class="cheaders2" style="margin-left: 600px">Fruits Nutrition Contribution to Deficiencies</p>
+    <span id='HorizontalBarChart' style="margin-left:400px"></span>
+    <!--<span style="margin-left: 850px">Percentage</span>-->
+</div>
+
+
+
+
+
+<script>
+    var data = [
+              {"topic":"apple","positiveInteractions":14.05},
+              {"topic":"banana","positiveInteractions":22.84},
+              {"topic":"avocado","positiveInteractions":8.53},
+              {"topic":"grape","positiveInteractions":17},
+              {"topic":"grapefruit","positiveInteractions":11},
+              {"topic":"orange","positiveInteractions":11.75},
+              {"topic":"peach","positiveInteractions":9.54},
+              {"topic":"mango","positiveInteractions":14.98},
+              {"topic":"watermelon","positiveInteractions":7.55},
+              {"topic":"pears","positiveInteractions":15.23},
+              {"topic":"blackberry","positiveInteractions":9.61},
+              {"topic":"pineapple","positiveInteractions":13},
+              {"topic":"cantaloupe","positiveInteractions":8},
+              {"topic":"kiwifruit","positiveInteractions":15},
+              {"topic":"papaya","positiveInteractions":11},
+              {"topic":"strawberry","positiveInteractions":7.68},
+              {"topic":"apricot","positiveInteractions":11},
+              {"topic":"pomegranate","positiveInteractions":19},
+              {"topic":"cranberry","positiveInteractions":12},
+              {"topic":"coconut","positiveInteractions":15}
+              ];
+
+    var dispatch = d3.dispatch('loadBubble', 'update');
+
+
+
+    dispatch.on('loadBubble', function (dimension, group) {
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+            diameter = 460 - margin.left - margin.right;
+
+        var onClick;
+
+        var color = d3.scale.category20();
+
+        var bubble = d3.layout.pack()
+            .sort(null)
+            .size([diameter, diameter])
+            .padding(1.5);
+
+        var t = d3.transition()
+            .duration(750);
+
+        var svg = d3.select('#bubble-chart'),
+            g = svg.select('g');
+
+        if (!svg.empty()) {
+            svg.select('svg').remove()
+        }
+
+        g = svg.append('svg')
+            .attr('width', diameter + margin.left + margin.right)
+            .attr('height', 480 + margin.top + margin.bottom)
+            .attr('class', 'bubble')
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+        var reset = g.append('text')
+            .attr('class', 'reset')
+            .style('display', 'none')
+            .attr('y', 10)
+            .attr('x', 20)
+            .text('reset')
+            .on('click', function () { dimension.filter(null); dispatch.update(); reset.style('display', 'none') })
+
+        var node = g.selectAll('.node')
+            .data(bubble.nodes({ children: group.all() }).filter(function(d) { return !d.children; }))
+
+        node.enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', function(d) {return 'translate(' + d.x + ',' + d.y + ')'; });
+
+        node.append('title')
+            .text(function(d) { return d.key; });
+
+        node.append('circle')
+            .attr('r', function(d) { return d.r; })
+            .style('fill', function(d) { return color(d.key); })
+            .on('click',function(d) { loadMultiLineChart(d.key);
+//   var dw= {Fruits: "avocado", protein: "2", sugars: "0.66", fiber: "6.7", fat: "14.66",calories: "160"}
+//                parcoords.highlight([dw]);
+                d3.csv('planet.csv', function(data) {
+                    data.forEach(function (d1) { // Make every date in the csv data a javascript date object format
+                       if(d.key==d1.Fruits) {
+
+                           parcoords.highlight([d1]);
+                       }
+                    });
+
+
+
+                })
+
+
+            });
+
+        node.append('text')
+            .attr('dy', '.3em')
+            .style('text-anchor', 'middle')
+            .text(function(d) { return d.key + ' - ' + d.value; });
+
+    })
+
+
+    // Code for line chart
+    function loadMultiLineChart(selected) {
+        var margin = {top: 10, right: 200, bottom: 100, left: 50},
+            margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
+            width = 1000 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom,
+            height2 = 500 - margin2.top - margin2.bottom;
+
+        if(selected!=null){
+            var svg = d3.select('#multiLineChart');
+            svg.select('svg').remove()
+        }else{
+            selected="carbohydrate"
+        }
+
+        var parseDate = d3.time.format("%Y-%m").parse; // Returns the date object
+        var bisectDate = d3.bisector(function(d) { return d.date; }).left;  // Locate the insertion point for x in array to maintain sorted order.
+
+        var xScale = d3.time.scale()
+                .range([0, width]),
+
+            xScale2 = d3.time.scale()
+                .range([0, width]); // Duplicate xScale for brushing ref later
+
+        var yScale = d3.scale.linear()
+            .range([height, 0]);
+
+        // 12 Custom DDV colors
+        var color = d3.scale.ordinal().range(['#d67777','#4f99b4','#ff9900']);
+        var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom"),
+
+            xAxis2 = d3.svg.axis() // xAxis for brush slider
+                .scale(xScale2)
+                .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left");
+
+        var line = d3.svg.line()  // The purpose of the basis interpolation is so that the peaks' maximum (or minimum) values will regress towards the mean
+            .interpolate("basis")
+            .x(function(d) { return xScale(d.date); })
+            .y(function(d) { return yScale(d.rating); })
+            .defined(function(d) { return d.rating; });  // Hiding line value defaults of 0 for missing data
+
+        var maxY; // Defined later to update yAxis
+
+        var svg = d3.select("#multiLineChart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom) //height + margin.top + margin.bottom
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // Create invisible rect for mouse tracking
+        svg.append("rect")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("id", "mouse-tracker")
+            .style("fill", "white");
+
+        //for slider part-----------------------------------------------------------------------------------
+
+        var context = svg.append("g") // Brushing context box container
+            .attr("transform", "translate(" + 0 + "," + 410 + ")")
+            .attr("class", "context");
+
+        //append clip path for lines plotted, hiding those part out of bounds
+        svg.append("defs")
+            .append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+var data=[];
+        //end slider part-----------------------------------------------------------------------------------
+           d3.tsv("datamline.tsv", function(error, data1) {
+
+            data1.forEach(function (d) {
+                // Make every date in the csv data a javascript date object format
+                var my_object = {};
+                if(d.Type==="WHITES(NHS)"){
+                    my_object.WHITES=d[selected];
+                    my_object.date=d.Year;
+                }
+
+                data1.forEach(function (d1) {
+                    // Make every date in the csv data a javascript date object format
+                    if(d1.Type==="BLACKS(NHB)" && my_object.date===d1.Year){
+                        my_object.BLACKS=d1[selected];
+                    }
+                });
+                data1.forEach(function (d2) {
+                    // Make every date in the csv data a javascript date object format
+                    if(d2.Type==="HISPANICS(HIS)" && my_object.date===d2.Year){
+                        my_object.HISPANICS=d2[selected];
+                    }
+                });
+                if(Object.keys(my_object).length != 0) {
+                    data.push(my_object);
+                }
+            });
+
+     console.log(data1);
+     console.log(data);
+
+               color.domain(d3.keys(data[0]).filter(function (key) { // Set the domain of the color ordinal scale to be all the csv headers except "date", matching a color to an issue
+                   return key !== "date";
+               }));
+
+               data.forEach(function (d) {
+                   // Make every date in the csv data a javascript date object format
+                   d.date = parseDate(d.date);
+               });
+
+               if (selected != null) {
+
+                   var categories = color.domain().map(function (name) { // Nest the data into an array of objects with new keys
+                       return {
+                           name: name, // "name": the csv headers except date
+                           values: data.map(function (d) { // "values": which has an array of the dates and ratings
+                               return {
+                                   date: d.date,
+                                   rating: +(d[name]),
+                               };
+                           }),
+                           visible: true// "visible": all false except for economy which is true.
+
+                       };
+                   });
+               } else {
+               var categories = color.domain().map(function (name) { // Nest the data into an array of objects with new keys
+                   return {
+                       name: name, // "name": the csv headers except date
+                       values: data.map(function (d) { // "values": which has an array of the dates and ratings
+                           return {
+                               date: d.date,
+                               rating: +(d[name]),
+                           };
+                       }),
+                       visible: true// "visible": all false except for economy which is true.
+
+                   };
+               });
+           }
+
+            console.log(categories  );
+            xScale.domain(d3.extent(data, function(d) { return d.date; })); // extent = highest and lowest points, domain is data, range is bouding box
+
+            yScale.domain([0,
+                d3.max(categories, function(c) {  var num=d3.max(c.values, function(v) { return v.rating; }); return num+0.6*num })
+            ]);
+
+            xScale2.domain(xScale.domain()); // Setting a duplicate xdomain for brushing reference later
+
+            //for slider part-----------------------------------------------------------------------------------
+
+            var brush = d3.svg.brush()//for slider bar at the bottom
+                .x(xScale2)
+                .on("brush", brushed);
+
+            context.append("g") // Create brushing xAxis
+                .attr("class", "x axis1")
+                .attr("transform", "translate(0," + height2 + ")")
+                .call(xAxis2);
+
+
+
+            var contextArea = d3.svg.area() // Set attributes for area chart in brushing context graph
+                .interpolate("monotone")  // will make graph smoother at all points without unexpected spikes
+                .x(function(d) { return xScale2(d.date); }) // x is scaled to xScale2
+                .y0(height2) // Bottom line begins at height2 (area chart not inverted)
+                .y1(0); // Top line of area, 0 (area chart not inverted)
+
+            //plot the rect as the bar at the bottom
+
+            context.append("path") // Path is created using svg.area details
+                .attr("class", "area")
+                .attr("d", contextArea(categories[0].values)) // pass first categories data .values to area path generator
+                .attr("fill", "#F1F1F2");
+
+            //append the brush for the selection of subsection
+            context.append("g")
+                .attr("class", "x brush")
+                .call(brush)
+                .selectAll("rect")
+                .attr("height", height2) // Make brush rects same height
+                .attr("fill", "#E6E7E8");
+            //end slider part-----------------------------------------------------------------------------------
+
+            // draw line graph
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")  // Normal way to append text to axis
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("x", -10)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .style("font","14px times")
+                .text("Nutrition (mg)");
+            // console.log(categories);
+            var issue = svg.selectAll(".issue")
+                .data(categories) // Select nested data and append to new svg group elements
+                .enter().append("g")
+                .attr("class", "issue");
+//analyse from here
+            issue.append("path")
+                .attr("class", "line")
+                .style("pointer-events", "none") // Stop line interferring with cursor
+                .attr("id", function(d) {
+                    return "line-" + d.name.replace(" ", "").replace("/", ""); // Give line id of line-(insert issue name, with any spaces replaced with no spaces)
+                })
+                .attr("d", function(d) {
+                    return d.visible ? line(d.values) : null; // If array key "visible" = true then draw line, if not then don't
+                })
+                .attr("clip-path", "url(#clip)")//use clip path to make irrelevant part invisible
+                .style("stroke", function(d) { return color(d.name); });
+
+            // draw legend
+            var legendSpace = 450 / categories.length; // 450/number of issues (ex. 40)
+
+            issue.append("rect")
+                .attr("width", 10)
+                .attr("height", 10)
+                .attr("x", width + (margin.right/3) - 15)
+                .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace) - 8; })  // spacing
+                .attr("fill",function(d) {
+                    return d.visible ? color(d.name) : "#F1F1F2"; // If array key "visible" = true then color rect, if not then make it grey
+                })
+                .attr("class", "legend-box")
+
+                .on("click", function(d){ // On click make d.visible
+                    d.visible = !d.visible; // If array key for this data selection is "visible" = true then make it false, if false then make it true
+
+                    maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+                    yScale.domain([0,maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+                    svg.select(".y.axis")
+                        .transition()  //used for animated transitions
+                        .call(yAxis);
+
+                    issue.select("path")
+                        .transition()
+                        .attr("d", function(d){
+                            return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+                        })
+
+                    issue.select("rect")
+                        .transition()
+                        .attr("fill", function(d) {
+                            return d.visible ? color(d.name) : "#F1F1F2";
+                        });
+                })
+
+                .on("mouseover", function(d){
+
+                    d3.select(this)
+                        .transition()
+                        .attr("fill", function(d) { return color(d.name); });
+
+                    d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+                        .transition()
+                        .style("stroke-width", 2.5);
+                })
+
+                .on("mouseout", function(d){
+
+                    d3.select(this)
+                        .transition()
+                        .attr("fill", function(d) {
+                            return d.visible ? color(d.name) : "#F1F1F2";});
+
+                    d3.select("#line-" + d.name.replace(" ", "").replace("/", ""))
+                        .transition()
+                        .style("stroke-width", 1.5);
+                })
+
+            issue.append("text")
+                .attr("x", width + (margin.right/3))
+                .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); })  // (return (11.25/2 =) 5.625) + i * (5.625)
+                .text(function(d) { return d.name; });
+
+            // Hover line
+            var hoverLineGroup = svg.append("g")
+                .attr("class", "hover-line");
+
+            var hoverLine = hoverLineGroup // Create line with basic attributes
+                .append("line")
+                .attr("id", "hover-line")
+                .attr("x1", 10).attr("x2", 10)
+                .attr("y1", 0).attr("y2", height + 10)
+                .style("pointer-events", "none") // Stop line interferring with cursor
+                .style("opacity", 1e-6); // Set opacity to zero
+
+            var hoverDate = hoverLineGroup
+                .append('text')
+                .attr("class", "hover-text")
+                .attr("y", height - (height-40)) // hover date text position
+                .attr("x", width - 150) // hover date text position
+                .style("fill", "#E6E7E8");
+
+            var columnNames = d3.keys(data[0]) //grab the key values from your first data row
+            //these are the same as your column names
+                .slice(1); //remove the first column name (`date`);
+
+            var focus = issue.select("g") // create group elements to house tooltip text
+                .data(columnNames) // bind each column name date to each g element
+                .enter().append("g") //create one <g> for each columnName
+                .attr("class", "focus");
+
+            focus.append("text") // http://stackoverflow.com/questions/22064083/d3-js-multi-series-chart-with-y-value-tracking
+                .attr("class", "tooltip")
+                .attr("x", width + 20) // position tooltips
+                .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); }); // (return (11.25/2 =) 5.625) + i * (5.625) // position tooltips
+
+            // Add mouseover events for hover line.
+//            d3.select("#mouse-tracker") // select chart plot background rect #mouse-tracker
+//                .on("mousemove", mousemove) // on mousemove activate mousemove function defined below
+//                .on("mouseout", function() {
+//                    hoverDate
+//                        .text(null) // on mouseout remove text for hover date
+//
+//                    d3.select("#hover-line")
+//                        .style("opacity", 1e-6); // On mouse out making line invisible
+//                });
+
+//            function mousemove() {
+//                var mouse_x = d3.mouse(this)[0]; // Finding mouse x position on rect
+//                var graph_x = xScale.invert(mouse_x); //
+//
+//                //var mouse_y = d3.mouse(this)[1]; // Finding mouse y position on rect
+//                //var graph_y = yScale.invert(mouse_y);
+//                //console.log(graph_x);
+//
+//                var format = d3.time.format('%b %Y'); // Format hover date text to show three letter month and full year
+//
+//                hoverDate.text(format(graph_x)); // scale mouse position to xScale date and format it to show month and year
+//
+//                d3.select("#hover-line") // select hover-line and changing attributes to mouse position
+//                    .attr("x1", mouse_x)
+//                    .attr("x2", mouse_x)
+//                    .style("opacity", 1); // Making line visible
+//
+//                // Legend tooltips // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
+//                console.log('hI');
+//                console.log(data);
+//                console.log('I');
+//                var x0 = xScale.invert(d3.mouse(this)[0]), /* d3.mouse(this)[0] returns the x position on the screen of the mouse. xScale.invert function is reversing the process that we use to map the domain (date) to range (position on screen). So it takes the position on the screen and converts it into an equivalent date! */
+//                    i = bisectDate(data, x0, 1), // use our bisectDate function that we declared earlier to find the index of our data array that is close to the mouse cursor
+//                    /*It takes our data array and the date corresponding to the position of or mouse cursor and returns the index number of the data array which has a date that is higher than the cursor position.*/
+//                    d0 = data[i - 1],
+//                    d1 = data[i],
+//                    /*d0 is the combination of date and rating that is in the data array at the index to the left of the cursor and d1 is the combination of date and close that is in the data array at the index to the right of the cursor. In other words we now have two variables that know the value and date above and below the date that corresponds to the position of the cursor.*/
+//                    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+//                /*The final line in this segment declares a new array d that is represents the date and close combination that is closest to the cursor. It is using the magic JavaScript short hand for an if statement that is essentially saying if the distance between the mouse cursor and the date and close combination on the left is greater than the distance between the mouse cursor and the date and close combination on the right then d is an array of the date and close on the right of the cursor (d1). Otherwise d is an array of the date and close on the left of the cursor (d0).*/
+//
+//                //d is now the data row for the date closest to the mouse position
+//
+//                focus.select("text").text(function(columnName){
+//                    //because you didn't explictly set any data on the <text>
+//                    //elements, each one inherits the data from the focus <g>
+//
+//                    return (d[columnName]);
+//                });
+//            };
+
+            //for brusher of the slider bar at the bottom
+            function brushed() {
+
+                xScale.domain(brush.empty() ? xScale2.domain() : brush.extent()); // If brush is empty then reset the Xscale domain to default, if not then make it the brush extent
+
+                svg.select(".x.axis") // replot xAxis with transition when brush used
+                    .transition()
+                    .call(xAxis);
+
+                maxY = findMaxY(categories); // Find max Y rating value categories data with "visible"; true
+                yScale.domain([0,maxY+0.6*maxY]); // Redefine yAxis domain based on highest y value of categories data with "visible"; true
+
+                svg.select(".y.axis") // Redraw yAxis
+                    .transition()
+                    .call(yAxis);
+
+                issue.select("path") // Redraw lines based on brush xAxis scale and domain
+                    .transition()
+                    .attr("d", function(d){
+                        return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+                    });
+
+            };
+
+        }); // End Data callback function
+
+        function findMaxY(data){  // Define function "findMaxY"
+            var maxYValues = data.map(function(d) {
+                if (d.visible){
+                    return d3.max(d.values, function(value) { // Return max rating value
+                        return value.rating; })
+                }
+            });
+            return d3.max(maxYValues);
+        }
+    }
+
+
+    //code for bar chart
+    function loadBars(selected){
+ console.log(selected+"HIIII");
+        if(selected ==null){
+            selected="carbohydrate";
+        }
+
+        var svg = d3.select('#loadBars'),
+            g = svg.select('g');
+
+        if (!svg.empty()) {
+            svg.select('svg').remove()
+        }
+        var t = d3.transition()
+            .duration(750);
+
+        d3.json('multiBarHorizontalData.json', function(data1) {
+            nv.addGraph(function() {
+                var chart = nv.models.multiBarHorizontalChart()
+                    .x(function(d) { return d.label })
+                    .y(function(d) { return d.value })
+                    .margin({ right: 30, left: 80})
+                    .width(600).height(300)
+                    .showValues(true)           //Show bar value next to each bar.
+                    .tooltips(true)             //Show tooltips on hover.
+                    .showControls(true);        //Allow user to switch between "Grouped" and "Stacked" mode.
+
+                chart.yAxis
+                    .tickFormat(d3.format(',.2f'));
+                console.log(data1);
+                var data=[];
+                data1.forEach(function (d) { // Make every date in the csv data a javascript date object format
+                    var my_object = {};
+                    my_object.key = d.name;
+                    my_object.color=d.color;
+                    dummy1=[]
+                    dummy={};
+                    dummy.label=selected;
+                    dummy.value=+d[selected];
+                    dummy1.push(dummy);
+
+                    my_object.values=dummy1;
+                    data.push(my_object);
+                });
+                console.log(data);
+                d3.select('#loadBars').append("svg")
+                    .style("height", "280")
+                    .datum(data)
+                    .call(chart);
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            });
+        });
+
+
+    }
+
+    //code for bar chart ends here
+
+    //code for brush bar
+
+    function loadBrushBar() {
+
+        var data = [],
+            svg,
+            defs,
+            gBrush,
+            brush,
+            main_xScale,
+            mini_xScale,
+            main_yScale,
+            mini_yScale,
+            main_yAxis,
+            mini_width,
+            brushTotalStart,
+            brushTotalEnd,
+            updatedData,
+            mousewheelTimer,
+            scrolling = false,
+            scrollEnd = false;
+
+        init();
+
+
+        function init() {
+
+    //        Create the random data
+//            for (var i = 0; i < 40; i++) {
+//                var my_object = {};
+//                my_object.key = i;
+//                my_object.country = makeWord();
+//                my_object.value = Math.floor(Math.random() * 600);
+//                data.push(my_object);
+//            }//for i
+//            data.sort(function(a,b) { return b.value - a.value; });
+
+            d3.tsv('slideBars.tsv', function(dataS) {
+             var i=0;
+                dataS.forEach(function (d) { // Make every date in the csv data a javascript date object format
+                    var my_object = {};
+                    my_object.key = i;
+                    my_object.country = d.country;
+                    my_object.value=+d.value;
+                    data.push(my_object);
+                    i++;
+                });
+            });
+            data.sort(function(a,b) { return b.value - a.value; });
+            /////////////////////////////////////////////////////////////
+            ///////////////// Set-up SVG and wrappers ///////////////////
+            /////////////////////////////////////////////////////////////
+            setTimeout(function(){
+            //Added only for the mouse wheel
+            var zoomer = d3.behavior.zoom()
+                .on("zoom", null);
+
+            var main_margin = {top: 10, right: 10, bottom: 10, left: 100},
+                main_width = 500 - main_margin.left - main_margin.right,
+                main_height = 400 - main_margin.top - main_margin.bottom;
+
+            var mini_margin = {top: 10, right: 10, bottom: 10, left: 10},
+                mini_height = 400 - mini_margin.top - mini_margin.bottom;
+            mini_width = 100 - mini_margin.left - mini_margin.right;
+
+            svg = d3.select("#chart").append("svg").style('margin-left', '45px').style('margin-bottom','90px')
+                .attr("class", "svgWrapper")
+                .attr("width", main_width + main_margin.left + main_margin.right + mini_width + mini_margin.left + mini_margin.right)
+                .attr("height", main_height + main_margin.top + main_margin.bottom)
+                .call(zoomer)
+                .on("wheel.zoom", scroll)
+                //.on("mousewheel.zoom", scroll)
+                //.on("DOMMouseScroll.zoom", scroll)
+                //.on("MozMousePixelScroll.zoom", scroll)
+                //Is this needed?
+                .on("mousedown.zoom", null)
+                .on("touchstart.zoom", null)
+                .on("touchmove.zoom", null)
+                .on("touchend.zoom", null);
+
+            var div = d3.select("#chart").append("div").attr("class", "toolTipBars");
+
+            var     mainGroup = svg.append("g")
+                .attr("class","mainGroup")
+                .attr("transform","translate(" + main_margin.left + "," + main_margin.top + ")");
+
+            var miniGroup = svg.append("g")
+                .attr("class","miniGroup")
+                .attr("transform","translate(" + (main_margin.left + main_width + main_margin.right + mini_margin.left) + "," + mini_margin.top + ")");
+
+            var brushGroup = svg.append("g")
+                .attr("class","brushGroup")
+                .attr("transform","translate(" + (main_margin.left + main_width + main_margin.right + mini_margin.left) + "," + mini_margin.top + ")");
+
+            /////////////////////////////////////////////////////////////
+            ////////////////////// Initiate scales //////////////////////
+            /////////////////////////////////////////////////////////////
+
+            main_xScale = d3.scale.linear().range([0, main_width]);
+            mini_xScale = d3.scale.linear().range([0, mini_width]);
+
+            main_yScale = d3.scale.ordinal().rangeRoundBands([0, main_height], 0.4, 0);
+            mini_yScale = d3.scale.ordinal().rangeBands([0, mini_height], 0.4, 0);
+
+            //Create y axis object
+            main_yAxis = d3.svg.axis()
+                .scale(main_yScale)
+                .orient("left")
+                .tickSize(0)
+                .outerTickSize(0);
+
+            //Add group for the y axis
+                mainGroup.append("g")
+                .attr("class", "y axisSl")
+                .attr("transform", "translate(-5,0)");
+
+
+
+                mainGroup.append("g")         // Add the X Axis
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + main_height + ")")
+                mainGroup.append("text")      // text label for the x axis
+                    .attr("x", 265 )
+                    .attr("y",  380 )
+                    .style("text-anchor", "middle")
+                    .style("font-size","14px")
+                    .text("Nutrition (mg)");
+
+
+
+
+            /////////////////////////////////////////////////////////////
+            /////////////////////// Update scales ///////////////////////
+            /////////////////////////////////////////////////////////////
+
+            //Update the scales
+            main_xScale.domain([0, d3.max(data, function(d) { return d.value; })]);
+            mini_xScale.domain([0, d3.max(data, function(d) { return d.value; })]);
+            main_yScale.domain(data.map(function(d) { return d.country; }));
+            mini_yScale.domain(data.map(function(d) { return d.country; }));
+
+            //Create the visual part of the y axis
+            d3.select(".mainGroup").select(".y.axisSl").call(main_yAxis);
+
+//                mainGroup.append("text")
+//                    .attr("transform", "rotate(-90)")
+//                    .attr("y", 0 – margin.left)
+//            .attr("x",0 - (height / 2))
+//                    .attr("dy", "1em")
+//                    .style("text-anchor", "middle")
+//                    .text("Value");
+
+            brushTotalStart = mini_yScale.domain()[0];
+            brushTotalEnd = mini_yScale.domain()[1];
+
+            /////////////////////////////////////////////////////////////
+            ///////////////////////// Create brush //////////////////////
+            /////////////////////////////////////////////////////////////
+
+            //What should the first extent of the brush become - a bit arbitrary this
+            var brushExtent = Math.max( 1, Math.min( 20, Math.round(data.length*0.2) ) );
+
+            brush = d3.svg.brush()
+                .y(mini_yScale)
+                .extent([mini_yScale(data[0].country), mini_yScale(data[brushExtent].country)])
+                .on("brush", brushmove)
+                .on("brushend", brushend);
+
+
+
+
+            //Set up the visual part of the brush
+            gBrush = d3.select(".brushGroup").append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            gBrush.selectAll(".resize")
+                .append("line")
+                .attr("x2", mini_width);
+
+            gBrush.selectAll(".resize")
+                .append("path")
+                .attr("d", d3.svg.symbol().type("triangle-up").size(20))
+                .attr("transform", function(d,i) {
+                    return i ? "translate(" + (mini_width/2) + "," + 4 + ") rotate(180)" : "translate(" + (mini_width/2) + "," + -4 + ") rotate(0)";
+                });
+
+            gBrush.selectAll("rect")
+                .attr("width", mini_width);
+
+            gBrush.select(".background")
+                .on("mousedown.brush", brushcenter)
+                .on("touchstart.brush", brushcenter);
+
+
+
+                //drag bar mouseover
+                $(".axisSl .tick text").mouseover(function(){
+                    var text=$(this).html();
+                    console.log(text);
+                    loadBars(text);
+                        loadMultiLineChart(text)
+                });
+                //drag bar mouseover ends
+            ///////////////////////////////////////////////////////////////////////////
+            /////////////////// Create a rainbow gradient - for fun ///////////////////
+            ///////////////////////////////////////////////////////////////////////////
+
+            defs = svg.append("defs")
+
+            //Create two separate gradients for the main and mini bar - just because it looks fun
+            createGradient("gradient-rainbow-main", "60%");
+            createGradient("gradient-rainbow-mini", "13%");
+
+            /////////////////////////////////////////////////////////////
+            //////////////// Set-up the main bar chart //////////////////
+            /////////////////////////////////////////////////////////////
+
+            //DATA JOIN
+            var bar = d3.select(".mainGroup").selectAll(".bar")
+                .data(data, function(d) { return d.key; });
+
+            //UPDATE
+            bar
+                .attr("width", function(d) { return main_xScale(d.value); })
+                .attr("y", function(d,i) { return main_yScale(d.country); })
+                .attr("height", main_yScale.rangeBand());
+
+
+
+            //ENTER
+            bar.enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("width", function(d) { return main_xScale(d.value); })
+                .attr("y", function(d,i) { return main_yScale(d.country); })
+                .attr("height", main_yScale.rangeBand())
+                .style("fill", "url(#gradient-rainbow-main)")
+                .on({
+                    "mouseover": function(d) {
+                        loadBars(d.country);
+                        loadMultiLineChart(d.country) ;
+                        }
+                })
+                .on("mousemove", function(d){
+                    div.style("left", d3.event.pageX+10+"px");
+                    div.style("top", d3.event.pageY-25+"px");
+                    div.style("display", "inline-block");
+                    div.html((d.country)+"<br>"+(d.value)+"mg");
+                })
+                .on("mouseout", function(d){
+                     // div.style("display", "none");
+                });
+            //.style("fill", "#3B8C3D");
+
+            //EXIT
+            bar.exit()
+                .remove();
+
+            /////////////////////////////////////////////////////////////
+            /////////////// Set-up the mini bar chart ///////////////////
+            /////////////////////////////////////////////////////////////
+
+            //The mini brushable bar
+            //DATA JOIN
+            var mini_bar = d3.select(".miniGroup").selectAll(".bar")
+                .data(data, function(d) { return d.key; });
+
+            //UDPATE
+            mini_bar
+                .attr("width", function(d) { return mini_xScale(d.value); })
+                .attr("y", function(d,i) { return mini_yScale(d.country); })
+                .attr("height", mini_yScale.rangeBand());
+
+            //ENTER
+            mini_bar.enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("width", function(d) { return mini_xScale(d.value); })
+                .attr("y", function(d,i) { return mini_yScale(d.country); })
+                .attr("height", mini_yScale.rangeBand())
+                .style("fill", "url(#gradient-rainbow-mini)");
+            //.style("fill", "#3B8C3D");
+
+            //EXIT
+            mini_bar.exit()
+                .remove();
+
+            //Start the brush
+            gBrush.call(brush.event);
+            }, 10);
+        }//init
+
+        //Function runs on a brush move - to update the big bar chart
+        function update(data) {
+
+            //The transition (& delay) time of the bars and the axis
+            var transTime = 400;
+            var delayTime = scrollEnd ? 0 : transTime;
+
+            /////////////////////////////////////////////////////////////
+            ///////////////////// Update the axis ///////////////////////
+            /////////////////////////////////////////////////////////////
+
+            //Update the domain of the y scale of the big bar chart
+            main_yScale.domain(data.map(function(d) { return d.country; }));
+
+
+
+//            //drag bar mouseover
+//            $(".axisSl text").mouseover(function(){
+//                var text=$(this).html();
+//                console.log(text);
+//                loadBars(text);
+//            });
+//            //drag bar mouseover ends
+
+
+
+            //Update the y axis of the big chart
+            d3.select(".mainGroup")
+                .select(".y.axisSl")
+                .transition()
+                .duration(transTime).delay(delayTime)
+                .call(main_yAxis);
+
+
+//            d3.select(".mainGroup")
+//                .select(".y.axisSl")
+//                .selectAll(".tick")
+//                .select(".text")
+//                .on({
+//                    "mouseover": function() {
+//
+//
+//                        var text=$(this).html();
+//                        console.log(text);
+//                        loadBars(text);
+//                        loadMultiLineChart(text)
+//                    }
+//                });
+
+
+            /////////////////////////////////////////////////////////////
+            ////////// Update the bars of the main bar chart ////////////
+            /////////////////////////////////////////////////////////////
+
+            //DATA JOIN
+            var bar = d3.select(".mainGroup").selectAll(".bar")
+                .data(data, function(d) { return d.key; });
+
+            //UPDATE
+            bar
+                .transition().duration(transTime).delay(delayTime)
+                .attr("x", 0)
+                .attr("width", function(d) { return main_xScale(d.value); })
+                    .attr("y", function(d,i) { return main_yScale(d.country); })
+                .attr("height", main_yScale.rangeBand());
+
+            //ENTER
+            bar.enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("width", 0)
+                .attr("y", function(d,i) { return main_yScale(d.country); })
+                .attr("height", main_yScale.rangeBand())
+                .style("fill", "url(#gradient-rainbow-main)")
+                .on("mousemove", function(d){
+//                    d3.select("#chart").append("div").attr("class", "toolTipBars");
+//                    div.style("left", d3.event.pageX+10+"px");
+//                    div.style("top", d3.event.pageY-25+"px");
+//                    div.style("display", "inline-block");
+//                    div.html((d.country)+"<br>"+(d.value)+"mg");
+                   d3.select(".toolTipBars").html((d.country)+"<br>"+(d.value)+"mg");
+                })
+                .on({
+                    "mouseover": function(d) {
+                        loadBars(d.country);
+                        loadMultiLineChart(d.country);
+                    }
+                })
+                .transition().duration(transTime).delay(delayTime*2)
+                .attr("width", function(d) { return main_xScale(d.value); });
+
+            //EXIT
+            bar.exit()
+                .transition().duration(transTime)
+                .attr("width", 0)
+                .remove();
+
+        }//update
+
+        /////////////////////////////////////////////////////////////
+        ////////////////////// Brush functions //////////////////////
+        /////////////////////////////////////////////////////////////
+
+        //First function that runs on a brush move
+        function brushmove() {
+
+            //drag bar mouseover
+            //drag bar mouseover ends
+
+            //What is the extent of the brush
+            var extent = brush.extent();
+
+            //Adjust the extent of the brush so that is snaps to the bars
+            if (d3.event.mode === "move" || scrollEnd === true) {
+                //If dragging, preserve the width of the extent
+
+                //Does the top edge lie closer to the upper or lower bar
+                var topExtent = extent[0];
+                //Using ES5 - http://stackoverflow.com/questions/8584902/get-closest-number-out-of-array
+                var closestTop = mini_yScale.range().reduce(function (prev, curr) {
+                    return (Math.abs(curr - topExtent) < Math.abs(prev - topExtent) ? curr : prev);
+                });
+
+                //Pixel location of the bottom bar
+                var maxBar = d3.max(mini_yScale.range());
+                //Does the top edge lie closer to the upper or lower bar
+                var bottomExtent = extent[1];
+                //Using ES5 - http://stackoverflow.com/questions/8584902/get-closest-number-out-of-array
+                var closestBottom = mini_yScale.range().reduce(function (prev, curr) {
+                    return (Math.abs(curr - bottomExtent) < Math.abs(prev - bottomExtent) ? curr : prev);
+                });
+
+                //Don't let it go over the last bar in the design
+                if(maxBar === closestBottom) {
+                    //The new extent that snaps to the bars
+                    extent = [closestBottom+mini_yScale.rangeBand()-(extent[1] - extent[0]),closestBottom+mini_yScale.rangeBand()];
+                } else {
+                    //The new extent that snaps to the bars
+                    extent = [closestTop,closestTop+(extent[1] - extent[0])];
+                }//else
+
+
+
+            } else if (!scrolling) {
+                //If changing size, snap to the nearest rect
+
+                //Find the pixel values of the bars that lie within the selected brush
+                var pixelRanges = mini_yScale.range()
+                    .filter(function(d) { return (d >= extent[0]-mini_yScale.rangeBand()/2) && (d <= extent[1]); });
+
+                //The new extent that snaps to the bars within the selection
+                extent = [d3.min(pixelRanges),d3.max(pixelRanges)+mini_yScale.rangeBand()];
+            }//else if
+            //else do nothing - then it comes from the scrolling and the extent has already been determined
+
+            //Snap to rect edge - the new extent
+            d3.select("g.brush")
+                .call(brush.extent(extent));
+
+            //What bars are captured in the brush
+            //During scrolling take a wider range and don't snap
+            if( scrolling ) {
+                var selected = mini_yScale.domain()
+                    .filter(function(d) { return (extent[0]-1e-3-mini_yScale.rangeBand() <= mini_yScale(d)) && (mini_yScale(d) <= extent[1]+1e-3+mini_yScale.rangeBand() ); });
+            } else {
+                var selected = mini_yScale.domain()
+                    .filter(function(d) { return (extent[0]-1e-3 <= mini_yScale(d)) && (mini_yScale(d) <= extent[1]+1e-3); });
+            }
+
+            //Take a subset of the selected data from the original dataset
+            updatedData = data.filter(function(d) { return selected.indexOf(d.country) > -1; });
+
+            //Update the colors of the mini chart - Make everything outside the brush grey
+            d3.select(".miniGroup").selectAll(".bar")
+                .style("fill", function(d, i) { return selected.indexOf(d.country) > -1 ? "url(#gradient-rainbow-mini)" : "#e0e0e0"; });
+
+            ////Update the main chart
+            ////If you want to see update during a brush moving uncomment this
+            ////But that doesn't work very well with the transitions of the bars in the update function & scrolling
+            //update(updatedData);
+
+        }//brushmove
+
+        //Finally update the data
+        function brushend() {
+            if(!scrolling) update(updatedData);
+        }
+
+        //Based on http://bl.ocks.org/mbostock/6498000
+        //What to do when the user clicks on another location along the brushable bar chart
+        function brushcenter() {
+            var target = d3.event.target,
+                extent = brush.extent(),
+                size = extent[1] - extent[0],
+                range = mini_yScale.range(),
+                y0 = d3.min(range) + size / 2,
+                y1 = d3.max(range) + mini_yScale.rangeBand() - size / 2,
+                center = Math.max( y0, Math.min( y1, d3.mouse(target)[1] ) );
+
+            d3.event.stopPropagation();
+
+            gBrush
+                .call(brush.extent([center - size / 2, center + size / 2]))
+                .call(brush.event);
+
+        }//brushcenter
+
+
+        /////////////////////////////////////////////////////////////
+        ///////////////////// Scroll functions //////////////////////
+        /////////////////////////////////////////////////////////////
+
+
+        //Function to calculate what should happen on a mouse scroll
+        function scroll() {
+
+            if (mousewheelTimer) clearTimeout(mousewheelTimer);
+
+            var extent = brush.extent(),
+                size = extent[1] - extent[0],
+                range = mini_yScale.range(),
+                y0 = d3.min(range),
+                y1 = d3.max(range),
+                dy = d3.event.deltaY,
+                topSection;
+
+            scrolling = true;
+
+            if( extent[0] - dy < y0 ) {
+                topSection = y0;
+            } else if ( extent[1] - dy > y1 ) {
+                topSection = y1 - size;
+            } else {
+                topSection = extent[0] - dy;
+            }//else
+
+            //Once the person stops scrolling, run the update data function
+            mousewheelTimer = setTimeout(function() {
+                mousewheelTimer = null;
+                scrolling = false;
+                scrollEnd = true;
+
+                //Finally snap the brush and update the data
+                gBrush
+                    .call(brush.event);
+
+                scrollEnd = false;
+            }, 200);
+
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
+
+            //Update the brush position during the scrolling
+            if(scrolling) {
+                gBrush
+                    .call(brush.extent([ topSection, topSection + size ]))
+                    .call(brush.event);
+            }//if
+
+        }//scroll
+
+        /////////////////////////////////////////////////////////////
+        ///////////////////// Helper functions //////////////////////
+        /////////////////////////////////////////////////////////////
+
+        //Create a gradient
+        function createGradient(idName, endPerc) {
+
+            var coloursRainbow = ["#8E297E", "#724097", "#4F54A8", "#296DA4", "#0C8B8C"];
+
+            defs.append("linearGradient")
+                .attr("id", idName)
+                .attr("gradientUnits", "userSpaceOnUse")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", endPerc).attr("y2", "0%")
+                .selectAll("stop")
+                .data(coloursRainbow)
+                .enter().append("stop")
+                .attr("offset", function(d,i) { return i/(coloursRainbow.length-1); })
+                .attr("stop-color", function(d) { return d; });
+        }//createGradient
+
+        //Function to generate random strings of 5 letters - for the demo only
+        function makeWord() {
+            var possible_UC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var text = possible_UC.charAt(Math.floor(Math.random() * possible_UC.length));
+
+            var possible_LC = "abcdefghijklmnopqrstuvwxyz";
+
+            for( var i=0; i < 5; i++ )
+                text += possible_LC.charAt(Math.floor(Math.random() * possible_LC.length));
+
+            return text;
+        }//makeWord
+
+
+    }
+
+//  Averaage Bar chart
+    function Barchartaverage(){
+        var margin = {top: 40, right: 20, bottom: 30, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var formatPercent = d3.format(".0%");
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+        ;
+
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return "<span style='color:red'>" + (d.frequency) + "%"+"</span>";
+            })
+
+        var svg = d3.select("#AverageBarchart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        //
+        svg.call(tip);
+
+        d3.tsv("data2.tsv", type, function(error, data) {
+            x.domain(data.map(function(d) { return d.letter; }));
+            y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Percentage");
+
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return x(d.letter); })
+                .attr("width", x.rangeBand())
+                .attr("y", function(d) { return y(d.frequency); })
+                .attr("height", function(d) { return height - y(d.frequency); })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+
+
+            svg.append("text")
+                .attr("class", "title")
+                .attr("x", x(data[0].name))
+                .attr("y", -26)
+                .text("");
+        });
+
+        function type(d) {
+            d.frequency = +d.frequency;
+            return d;
+        }
+
+    }
+
+
+
+    // Hori bar chart ######
+
+    function Horibarchart(selected){
+//        data = [
+//            {label:"potassium", value:22.30},
+//            {label:"magnesium", value:12.39},
+//            {label:"vitaminA ", value:0.06},
+//            {label:"carbohydrate", value:42.89},
+//            {label:"fiber ", value:49.64},
+//            {label:"zinc ", value:3.28}
+//        ];
+
+
+        if (selected == null) {
+            selected = "mangos";
+        }
+data=[];
+
+
+        d3.tsv("hchart.tsv", function (error, data1) {
+
+            console.log(data1);
+            data1.forEach(function (d) { // Make every date in the csv data a javascript date object format
+                if (d.Fruits == selected) {
+
+                    var my_object = {};
+                    my_object.label = "potassium";
+                    my_object.value= +d.potassium;
+                    data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "magnesium";
+                    my_object.value= +d.magnesium;
+                    data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "vitaminA";
+                    my_object.value= +d.vitaminA;
+                    data.push(my_object);
+//                    var my_object = {};
+//                    my_object.label = "calcium";
+//                    my_object.value= +d.calcium;
+                  //  data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "carbohydrate";
+                    my_object.value= +d.carbohydrate;
+                    data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "fiber";
+                    my_object.value= +d.fiber;
+                    data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "zinc";
+                    my_object.value= +d.zinc;
+                    data.push(my_object);
+                    var my_object = {};
+                    my_object.label = "calcium";
+                    my_object.value= +d.calcium;
+                    data.push(my_object);
+                }
+            });
+
+        });
+        console.log(data);
+        setTimeout(function() {
+
+
+            console.log(data);
+
+            var svg = d3.select('#HorizontalBarChart'),
+                g = svg.select('g');
+
+            if (!svg.empty()) {
+                svg.select('svg').remove()
+            }
+
+
+            var axisMargin = 40,
+                margin = 40,
+                valueMargin = 10,
+                width = 700,
+                height = 500,
+                barHeight = (height - axisMargin - margin * 2) * 0.4 / data.length,
+                barPadding = (height - axisMargin - margin * 2) * 0.6 / data.length, bar, svg, scale, xAxis, labelWidth = 0;
+
+
+            var div = d3.select("#HorizontalBarChart").append("div").attr("class", "toolTipHBO");
+            max = d3.max(data, function (d) {
+                return d.value;
+            });
+
+            svg = d3.select('#HorizontalBarChart')
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height).style("margin-left", "110px");
+
+
+            bar = svg.selectAll("g")
+                .data(data)
+                .enter()
+                .append("g");
+
+            bar.attr("class", "barH")
+                .attr("cx", 0)
+                .attr("transform", function (d, i) {
+                    return "translate(" + margin + "," + (i * (barHeight + barPadding) + barPadding) + ")";
+                });
+
+            bar.append("text")
+                .attr("class", "label")
+                .attr("y", barHeight / 2)
+                .attr("dy", ".35em") //vertical align middle
+                .text(function (d) {
+                    return d.label;
+                }).each(function () {
+                labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
+            });
+
+            scale = d3.scale.linear()
+                .domain([0, max])
+                .range([0, width - margin * 2 - labelWidth]);
+
+            xAxis = d3.svg.axis()
+                .scale(scale)
+                .tickSize(-height + 2 * margin + axisMargin)
+                .orient("bottom");
+
+            bar.append("rect")
+                .attr("transform", "translate(" + labelWidth + ", 0)")
+                .attr("height", barHeight + 15)
+                .attr("width", function (d) {
+                    return scale(d.value);
+                });
+
+            bar.append("text")
+                .attr("class", "value")
+                .attr("y", barHeight / 2)
+                .attr("dx", -valueMargin + labelWidth) //margin right
+                .attr("dy", ".35em") //vertical align middle
+                .attr("text-anchor", "end")
+                .attr("x", function (d) {
+                    var width = this.getBBox().width;
+                    return Math.max(width + valueMargin, scale(d.value));
+                });
+
+            bar
+                .on("mousemove", function (d) {
+                    div.style("left", d3.event.pageX + 10 + "px");
+                    div.style("top", d3.event.pageY - 25 + "px");
+                    div.style("display", "inline-block");
+                    div.html((d.label) + "<br>" + (d.value) + "%");
+                });
+            bar
+                .on("mouseout", function (d) {
+                    div.style("display", "none");
+                });
+
+            svg.insert("g", ":first-child")
+                .attr("class", "axisHorizontal")
+                .attr("transform", "translate(" + (margin + labelWidth) + "," + (height - axisMargin - margin) + ")")
+                .call(xAxis);
+            svg.append("text")      // text label for the x axis
+                .attr("x", 350 )
+                .attr("y",  475 )
+                .style("text-anchor", "middle")
+                .text("Percentage");
+
+        },10);
+    }
+
+    // average nut deficticy
+
+
+    //   console.log(data);
+    var xf = crossfilter(data)
+ //   console.log(xf);
+
+    var topic = xf.dimension(function (d) { return d.topic }),
+        topics = topic.group().reduceSum(function (d) { return d.positiveInteractions; })
+   // console.log(genders);
+  //  dispatch.loadBar(gender, genders);
+    var selected=null;
+    loadBrushBar();
+    loadMultiLineChart(selected);
+    loadBars(selected);
+//    dispatch.loadBubble(topic, topics);
+    Barchartaverage();
+    Horibarchart(selected);
+</script>
+
+<!--Code for Parrlel coordinates graph -->
+<script src="d3.parcoords.js"></script>
+<script src="divgrid.js"></script>
+<script id="brushing">// quantitative colour scale
+var green_to_blue = d3.scale.linear()
+    .domain([9, 50])
+    .range(["#7AC143", "#00B0DD"])
+    .interpolate(d3.interpolateLab);
+
+var color = function(d) { return green_to_blue(d['protein']); };
+
+var parcoords = d3.parcoords()("#example")
+    .color(color)
+    .alpha(0.4);
+
+// load csv file and create the chart
+d3.csv('Para-nut.csv', function(data) {
+    parcoords
+        .data(data)
+        .render()
+        .brushMode("1D-axes");  // enable brushing
+
+    // create data table, row hover highlighting
+    var grid = d3.divgrid();
+//    console.log(data.slice(0,10));
+
+
+
+
+
+    d3.select("#grid")
+        .datum(data.slice(0,20))
+        .call(grid)
+        .selectAll(".row")
+        .on({
+            "mouseover": function(d) {console.log(d.Fruits);
+            parcoords.highlight([d]) },
+            "mouseout": parcoords.unhighlight
+        }).on("click", function(d) {
+
+
+//            d3.select("#grid")
+//                .datum(data.slice(0,20))
+//                .call(grid)
+//                .select(".row:nth-child(2)").css( "background-color", "#ddd" );
+
+        if (pickedup1 != null) {
+            pickedup1.css( "background-color", "#ddd" );
+        }
+        Horibarchart(d.Fruits);
+        $( this ).css( "background-color", "#bcbddc" );
+        pickedup1 = $( this );
+    });
+
+    // update data table on brush event
+    parcoords.on("brush", function(d) {
+        d3.select("#grid")
+            .datum(d.slice(0,20))
+            .call(grid)
+            .selectAll(".row")
+            .on({
+                "mouseover": function(d) { parcoords.highlight([d]) },
+                "mouseout": parcoords.unhighlight
+            });
+    });
+});
+</script>
+<script>
+    var pickedup;
+    var pickedup1;
+
+    $( "#stdtable tbody tr" ).on( "click", function( event ) {
+
+    // get back to where it was before if it was selected :
+    if (pickedup != null) {
+        pickedup.css( "background-color", "#ddd" );
+    }
+
+    var tabletd=$(this).find("td").eq(0).html();
+    $( this ).css( "background-color", "#bcbddc" );
+    pickedup = $( this );
+        loadBars(tabletd.trim());
+        loadMultiLineChart(tabletd.trim())
+});</script>
+
+<!--<script>-->
+    <!--var pickedup1;-->
+    <!--$( "#grid div" ).on( "click", function( event ) {-->
+
+        <!--// get back to where it was before if it was selected :-->
+        <!--if (pickedup1 != null) {-->
+            <!--pickedup1.css( "background-color", "#ddd" );-->
+        <!--}-->
+
+        <!--var tabletd=$(this).find("div").eq(0).html();-->
+        <!--console.log(tabletd);-->
+        <!--$( this ).css( "background-color", "#bcbddc" );-->
+        <!--pickedup1 = $( this );-->
+        <!--loadBars(tabletd.trim());-->
+        <!--loadMultiLineChart(tabletd.trim())-->
+    <!--});</script>-->
+<!--Code for Parrlel coordinates graph  ends-->
+</body>
