@@ -1,5 +1,5 @@
 # Nutritional Facts
-<p> <a href="http://www.cs.odu.edu/~gkathire/Viz_9/">>Web page Link</a></p>
+<p> <a href="http://www.cs.odu.edu/~gkathire/Viz_9/">Web page Link</a></p>
 <p>
 Daily nutrition is a definite measure for everyone to compare the levels of nutrition intake. Amidst comparison to
 the daily standard values, there are certain nutrients which become deficient based on the food intake. Taking this into consideration,
