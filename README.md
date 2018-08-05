@@ -18,9 +18,9 @@ D3.js, NVD3, jQuery, JavaScript
 <p>Supports Desktop View</p>
 
 ### Few images which demonstrates the website visual impression  can be observed below.
-## Image 
+## Consumption Trends 
 ![alt text](images/image-1.PNG)
 
-## Image 
+## Nutrition Contribution to Deficiencies 
 ![alt text](images/image-2.PNG)
 
