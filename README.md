@@ -18,9 +18,6 @@ D3.js, NVD3, jQuery, JavaScript
 <p>Supports Desktop View</p>
 
 ### Few images which demonstrates the website visual impression  can be observed below.
-<br>
-<br>
-
 ## Image 
 ![alt text](images/image-1.PNG)
 
